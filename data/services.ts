@@ -1,0 +1,115 @@
+import { ServiceItem } from '@/types';
+
+export const SERVICES_DATA: ServiceItem[] = [
+  {
+    id: 'building-construction',
+    numberTag: 'Service 01',
+    title: 'Building Construction (Residential & Commercial)',
+    description:
+      'Comprehensive turnkey building solutions encompassing luxury residential estates, multi-floor corporate office hubs, institutional facilities, and modern high-rises engineered to last generations.',
+    deliverables: [
+      'High-rise & multi-storey commercial towers',
+      'Luxury gated residential developments',
+      'Turnkey architectural & civil execution',
+    ],
+    ctaLabel: 'Commission Building Project',
+    icon: 'apartment',
+    accentBarClass: 'bg-primary',
+    iconBgClass: 'bg-primary-fixed',
+    iconColorClass: 'text-primary',
+    textColorClass: 'text-primary',
+  },
+  {
+    id: 'industrial-engineering',
+    numberTag: 'Service 02',
+    title: 'Industrial Engineering Construction',
+    description:
+      'Robust fabrication and structural erection for heavy industrial processing plants, high-cube logistics warehouses, specialized manufacturing facilities, and heavy-duty concrete pavement works.',
+    deliverables: [
+      'Heavy industrial plants & manufacturing floors',
+      'Structural steel fabrication & portal framing',
+      'High-tolerance heavy equipment foundations',
+    ],
+    ctaLabel: 'Industrial Works Consultation',
+    icon: 'factory',
+    accentBarClass: 'bg-secondary-container',
+    iconBgClass: 'bg-secondary-fixed',
+    iconColorClass: 'text-secondary-fixed-variant',
+    textColorClass: 'text-secondary',
+  },
+  {
+    id: 'electrical-mechanical',
+    numberTag: 'Service 03',
+    title: 'Electrical & Mechanical Installation',
+    description:
+      'End-to-end electro-mechanical engineering encompassing medium/low voltage power distribution, central HVAC chilling plants, intelligent fire detection/suppression, and renewable solar arrays.',
+    deliverables: [
+      'High-capacity power distribution & transformer substations',
+      'Industrial HVAC systems & clean air ventilation',
+      'Automated fire detection, sprinklers & suppression',
+    ],
+    ctaLabel: 'Inquire MEP Solutions',
+    icon: 'bolt',
+    accentBarClass: 'bg-primary',
+    iconBgClass: 'bg-primary-fixed',
+    iconColorClass: 'text-primary',
+    textColorClass: 'text-primary',
+  },
+  {
+    id: 'facilities-management',
+    numberTag: 'Service 04',
+    title: 'General Facilities Management',
+    description:
+      'Preserving structural integrity and continuous operational performance through predictive lifecycle maintenance, HVAC servicing, 24/7 technical breakdown dispatch, and statutory building audits.',
+    deliverables: [
+      '24/7 technical incident response & emergency support',
+      'Preventive electro-mechanical maintenance (PPM)',
+      'Structural health audits & energy optimization',
+    ],
+    ctaLabel: 'Request FM Proposal',
+    icon: 'home_repair_service',
+    accentBarClass: 'bg-inverse-surface',
+    iconBgClass: 'bg-surface-container-highest',
+    iconColorClass: 'text-inverse-surface',
+    textColorClass: 'text-inverse-surface',
+  },
+  {
+    id: 'real-estate-dev',
+    numberTag: 'Service 05',
+    title: 'Real Estate Development',
+    description:
+      'Strategic land bank acquisition, municipal master planning, high-yield commercial hubs, and modern residential gated communities developed through disciplined capital allocation.',
+    deliverables: [
+      'Strategic property acquisition & statutory title perfection',
+      'Master-planned gated residential communities',
+      'Turnkey property development & joint ventures',
+    ],
+    ctaLabel: 'Explore Development Opportunities',
+    icon: 'domain_add',
+    accentBarClass: 'bg-primary',
+    iconBgClass: 'bg-primary-fixed',
+    iconColorClass: 'text-primary',
+    textColorClass: 'text-primary',
+  },
+  {
+    id: 'procurement-division',
+    numberTag: 'Specialized Division',
+    title: 'Heavy Equipment & Materials Procurement',
+    description:
+      'Direct sourcing, customs clearance, and nationwide delivery of heavy earth-moving equipment, batching plants, certified rebar, aggregate, and specialized civil construction consumables.',
+    deliverables: [
+      'Excavators, bulldozers, graders & mobile cranes',
+      'High-tensile certified rebar & structural steel',
+      'Batching plants & ready-mix transit supply',
+    ],
+    ctaLabel: 'Procurement Logistics Desk',
+    icon: 'local_shipping',
+    accentBarClass: '',
+    iconBgClass: 'bg-secondary-container',
+    iconColorClass: 'text-on-secondary-container',
+    textColorClass: 'text-secondary-fixed',
+    isSpecial: true,
+    specialBadge: 'Industrial Procurement',
+    cardBgClass: 'bg-inverse-surface text-inverse-on-surface border-2 border-secondary-container',
+  },
+];
