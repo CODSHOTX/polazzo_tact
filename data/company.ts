@@ -2,7 +2,7 @@ import { MetricItem, CorePillar, AdvantagePillar, RegionalHub } from '@/types';
 
 export const METRICS_DATA: MetricItem[] = [
   {
-    value: '150+',
+    value: '15+',
     label: 'Projects Delivered',
     detail: 'Turnkey Excellence',
     accent: 'secondary',
@@ -14,7 +14,7 @@ export const METRICS_DATA: MetricItem[] = [
     accent: 'primary',
   },
   {
-    value: '15+',
+    value: '13+',
     label: 'Years Experience',
     detail: 'Engineering Heritage',
     accent: 'secondary',
