@@ -45,10 +45,16 @@ export interface ProjectItem {
   categoryLabel: string;
   location: string;
   description: string;
-  scope: string;
+  scope?: string;
   status: string;
   imageSrc: string;
   imageAlt: string;
+}
+
+export interface SelectedProject {
+  title: string;
+  location: string;
+  badge?: string;
 }
 
 export interface AdvantagePillar {
@@ -58,6 +64,31 @@ export interface AdvantagePillar {
   borderClass: string;
   iconBgClass: string;
   iconColorClass: string;
+}
+
+export interface CompanyValue {
+  title: string;
+  icon: string;
+}
+
+export interface WhyUsPillar {
+  title: string;
+  icon: string;
+  paragraphs: string[];
+}
+
+export interface StaffMember {
+  title: string;
+  name: string;
+  credential?: string;
+  role: string;
+}
+
+export interface RegistrationDetail {
+  label: string;
+  value: string;
+  authority: string;
+  icon: string;
 }
 
 export interface RegionalHub {

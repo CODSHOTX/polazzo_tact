@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { CORE_PILLARS } from '@/data/company';
 import { Icon } from '@/components/ui/Icon';
 
@@ -55,6 +56,14 @@ export const AboutSection: React.FC = () => {
                 </div>
               ))}
             </div>
+
+            <Link
+              href="/about/our-company"
+              className="inline-flex items-center gap-2 font-label-lg text-label-lg text-primary font-bold uppercase tracking-wider hover:gap-3 transition-all"
+            >
+              <span>Learn More About Us</span>
+              <Icon name="arrow_forward" className="text-[18px]" />
+            </Link>
           </div>
 
           {/* Right Side: Structural Graphic & Photo Grid */}

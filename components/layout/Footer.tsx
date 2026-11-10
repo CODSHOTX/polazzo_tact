@@ -139,17 +139,17 @@ export const Footer: React.FC = () => {
             Engineering Excellence.
           </p>
           <div className="flex items-center gap-6 text-label-sm font-label-sm text-tertiary-fixed-dim">
-            <Link className="hover:text-primary-fixed transition-colors" href="#about">
+            <Link className="hover:text-primary-fixed transition-colors" href="/about/our-company">
               Safety Code of Conduct
             </Link>
             <span>•</span>
-            <Link className="hover:text-primary-fixed transition-colors" href="#contact">
+            <Link className="hover:text-primary-fixed transition-colors" href="/#contact">
               Tender Submissions
             </Link>
             <span>•</span>
-            <Link className="hover:text-primary-fixed transition-colors" href="#home">
+            <a className="hover:text-primary-fixed transition-colors" href="#top">
               Back to Top &uarr;
-            </Link>
+            </a>
           </div>
         </div>
       </div>

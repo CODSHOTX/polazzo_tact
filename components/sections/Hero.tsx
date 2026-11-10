@@ -80,7 +80,7 @@ export const Hero: React.FC = () => {
 
             <div className="relative h-80 md:h-96 w-full overflow-hidden bg-surface-container">
               <Image
-                src="/images/hero-site.jpg"
+                src="/images/heroimg.jpeg"
                 alt="A modern massive civil engineering and industrial construction site in Nigeria with heavy yellow cranes, reinforced concrete framing, steel structural girders, and Nigerian project engineers wearing high-visibility orange safety vests and white hardhats under bright natural daylight."
                 fill
                 priority

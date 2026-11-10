@@ -95,27 +95,36 @@ export const ADVANTAGE_PILLARS: AdvantagePillar[] = [
 
 export const REGIONAL_HUBS: RegionalHub[] = [
   {
-    title: 'Lagos Head Office (South-West Operations)',
-    address: 'Plot 14, Commercial Boulevard, Victoria Island / Lekki Corridor, Lagos State, Nigeria.',
-    phone: 'Tel: +234 800 POLAZZO',
+    title: 'Lagos Office',
+    address: 'Plot 15, Ereke House, CIPM, Building CDB, Alausa, Ikeja Lagos State, Nigeria.',
+    phone: 'Tel: +234 (0) 803 970 2524 / +234 (0) 905 955 8962',
     hours: 'Mon - Fri: 8:00am - 6:00pm',
     borderClass: 'border-primary',
     icon: 'location_city',
     iconClass: 'text-primary',
   },
   {
-    title: 'Abuja Branch Office (FCT & North Operations)',
-    address: 'Suite 402, Executive Towers, Central Business District (CBD), Abuja FCT, Nigeria.',
-    email: 'Email: abuja@polazzotact.com',
+    title: 'Abuja Office',
+    address: '52, Gbazango Extension, Kubwa, Abuja FCT, Nigeria.',
+    phone: 'Tel: +234 (0) 803 970 2524 / +234 (0) 905 955 8962',
     rcNumber: 'RC: 1087410',
     borderClass: 'border-secondary-container',
     icon: 'account_balance',
     iconClass: 'text-secondary',
   },
+  {
+    title: 'Oyo Office',
+    address: '4th Floor, Derila Building, Iwo Road, Ibadan, Oyo State, Nigeria.',
+    phone: 'Tel: +234 (0) 803 970 2524 / +234 (0) 905 955 8962',
+    hours: 'Mon - Fri: 8:00am - 6:00pm',
+    borderClass: 'border-secondary-container',
+    icon: 'location_city',
+    iconClass: 'text-secondary',
+  }
 ];
 
 export const EMERGENCY_HOTLINE = {
   title: '24/7 Contractor Emergency Hotline',
-  phone: '+234 (0) 800 765 2996',
+  phone: '+234 (0) 803 970 2524',
   icon: 'emergency',
 };

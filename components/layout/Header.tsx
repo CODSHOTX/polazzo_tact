@@ -3,18 +3,20 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { NAV_LINKS } from '@/data/navigation';
 import { Icon } from '@/components/ui/Icon';
 
 export const Header: React.FC = () => {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false);
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen((prev) => !prev);
-  };
+  const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href));
 
-  const closeMobileMenu = () => {
+  const closeMenus = () => {
     setMobileMenuOpen(false);
+    setAboutDropdownOpen(false);
   };
 
   return (
@@ -22,7 +24,8 @@ export const Header: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between w-full">
         {/* Corporate Identity & Brand Logo */}
         <Link
-          href="#home"
+          href="/"
+          onClick={closeMenus}
           className="flex items-center gap-3 group active:scale-[0.98] transition-transform duration-100"
         >
           <div className="relative h-10 md:h-12 w-28 md:w-36">
@@ -47,87 +50,79 @@ export const Header: React.FC = () => {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-8">
-          <Link
-            href="#home"
-            className="text-primary border-b-2 border-primary font-label-lg text-label-lg pb-1 hover:text-primary transition-colors duration-150 active:scale-[0.98]"
-          >
-            Home
-          </Link>
+          {NAV_LINKS.map((link) => {
+            const active = isActive(link.href);
 
-          {/* Interactive About Dropdown */}
-          <div
-            className="relative inline-flex items-center"
-            onMouseEnter={() => setAboutDropdownOpen(true)}
-            onMouseLeave={() => setAboutDropdownOpen(false)}
-          >
-            <button
-              type="button"
-              onClick={() => setAboutDropdownOpen((prev) => !prev)}
-              aria-label="About section navigation"
-              className="font-label-lg text-label-lg text-on-surface bg-transparent border-0 cursor-pointer focus:outline-none hover:text-primary transition-colors py-1 pr-5 flex items-center gap-1"
-            >
-              <span>About</span>
-              <Icon
-                name="expand_more"
-                className={`text-[16px] text-tertiary transition-transform ${
-                  aboutDropdownOpen ? 'rotate-180' : ''
+            if (link.subItems) {
+              return (
+                <div
+                  key={link.href}
+                  className="relative inline-flex items-center"
+                  onMouseEnter={() => setAboutDropdownOpen(true)}
+                  onMouseLeave={() => setAboutDropdownOpen(false)}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setAboutDropdownOpen((prev) => !prev)}
+                    aria-expanded={aboutDropdownOpen}
+                    aria-haspopup="true"
+                    className={`font-label-lg text-label-lg bg-transparent cursor-pointer focus:outline-none hover:text-primary transition-colors pb-1 flex items-center gap-1 border-b-2 ${
+                      active ? 'text-primary border-primary' : 'text-on-surface border-transparent'
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    <Icon
+                      name="expand_more"
+                      className={`text-[18px] transition-transform ${aboutDropdownOpen ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  {aboutDropdownOpen && (
+                    <div className="absolute top-full left-0 pt-2 z-50">
+                      <div className="w-60 bg-surface-container-lowest border border-outline-variant border-t-2 border-t-primary shadow-lg rounded-DEFAULT py-2">
+                        {link.subItems.map((item) => {
+                          const itemActive = pathname === item.href;
+                          return (
+                            <Link
+                              key={item.href}
+                              href={item.href}
+                              onClick={closeMenus}
+                              aria-current={itemActive ? 'page' : undefined}
+                              className={`flex items-center justify-between px-4 py-2.5 font-label-lg text-label-lg hover:bg-surface-container hover:text-primary transition-colors ${
+                                itemActive ? 'text-primary bg-surface-container-low' : 'text-on-surface'
+                              }`}
+                            >
+                              <span>{item.label}</span>
+                              <Icon name="chevron_right" className="text-[16px] text-tertiary" />
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={active ? 'page' : undefined}
+                className={`font-label-lg text-label-lg pb-1 border-b-2 hover:text-primary transition-colors duration-150 active:scale-[0.98] ${
+                  active ? 'text-primary border-primary' : 'text-on-surface border-transparent'
                 }`}
-              />
-            </button>
-
-            {aboutDropdownOpen && (
-              <div className="absolute top-full left-0 mt-1 w-48 bg-surface-container-lowest border border-outline-variant shadow-lg rounded-DEFAULT py-2 z-50">
-                <Link
-                  href="#about"
-                  className="block px-4 py-2 text-label-md text-on-surface hover:bg-surface-container hover:text-primary transition-colors"
-                  onClick={() => setAboutDropdownOpen(false)}
-                >
-                  Our Company
-                </Link>
-                <Link
-                  href="#about"
-                  className="block px-4 py-2 text-label-md text-on-surface hover:bg-surface-container hover:text-primary transition-colors"
-                  onClick={() => setAboutDropdownOpen(false)}
-                >
-                  Our Key Pillars
-                </Link>
-                <Link
-                  href="#about"
-                  className="block px-4 py-2 text-label-md text-on-surface hover:bg-surface-container hover:text-primary transition-colors"
-                  onClick={() => setAboutDropdownOpen(false)}
-                >
-                  Our Corporate Profile
-                </Link>
-              </div>
-            )}
-          </div>
-
-          <Link
-            href="#projects"
-            className="text-on-surface font-label-lg text-label-lg pb-1 hover:text-primary transition-colors duration-150 active:scale-[0.98]"
-          >
-            Projects
-          </Link>
-
-          <Link
-            href="#services"
-            className="text-on-surface font-label-lg text-label-lg pb-1 hover:text-primary transition-colors duration-150 active:scale-[0.98]"
-          >
-            Our Services
-          </Link>
-
-          <Link
-            href="#contact"
-            className="text-on-surface font-label-lg text-label-lg pb-1 hover:text-primary transition-colors duration-150 active:scale-[0.98]"
-          >
-            Contact Us
-          </Link>
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Primary Action CTA */}
         <div className="hidden lg:flex items-center gap-4">
           <Link
-            href="#contact"
+            href="/#contact"
             className="bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg px-5 py-2.5 rounded-DEFAULT uppercase tracking-wider font-bold transition-all shadow-sm active:scale-[0.98] inline-flex items-center gap-2"
           >
             <span>Request a Quote</span>
@@ -139,7 +134,8 @@ export const Header: React.FC = () => {
         <button
           type="button"
           aria-label="Toggle Navigation"
-          onClick={toggleMobileMenu}
+          aria-expanded={mobileMenuOpen}
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
           className="md:hidden p-2 text-on-surface hover:text-primary"
         >
           <Icon name={mobileMenuOpen ? 'close' : 'menu'} className="text-2xl" />
@@ -148,46 +144,49 @@ export const Header: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-surface-container-lowest border-t border-outline-variant px-6 py-4 flex flex-col gap-4">
+        <div className="md:hidden bg-surface-container-lowest border-t border-outline-variant px-6 py-4 flex flex-col gap-1">
+          {NAV_LINKS.map((link) =>
+            link.subItems ? (
+              <div key={link.href} className="py-1">
+                <span
+                  className={`block font-label-lg text-label-lg py-2 ${
+                    isActive(link.href) ? 'text-primary font-bold' : 'text-on-surface'
+                  }`}
+                >
+                  {link.label}
+                </span>
+                <div className="flex flex-col border-l-2 border-outline-variant ml-1">
+                  {link.subItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMenus}
+                      className={`pl-4 py-2 font-label-lg text-label-lg hover:text-primary ${
+                        pathname === item.href ? 'text-primary font-bold' : 'text-tertiary'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={closeMenus}
+                className={`font-label-lg text-label-lg py-2 hover:text-primary ${
+                  isActive(link.href) ? 'text-primary font-bold' : 'text-on-surface'
+                }`}
+              >
+                {link.label}
+              </Link>
+            )
+          )}
           <Link
-            href="#home"
-            onClick={closeMobileMenu}
-            className="font-label-lg text-label-lg text-primary font-bold py-1"
-          >
-            Home
-          </Link>
-          <Link
-            href="#about"
-            onClick={closeMobileMenu}
-            className="font-label-lg text-label-lg text-on-surface py-1 hover:text-primary"
-          >
-            About
-          </Link>
-          <Link
-            href="#projects"
-            onClick={closeMobileMenu}
-            className="font-label-lg text-label-lg text-on-surface py-1 hover:text-primary"
-          >
-            Projects
-          </Link>
-          <Link
-            href="#services"
-            onClick={closeMobileMenu}
-            className="font-label-lg text-label-lg text-on-surface py-1 hover:text-primary"
-          >
-            Our Services
-          </Link>
-          <Link
-            href="#contact"
-            onClick={closeMobileMenu}
-            className="font-label-lg text-label-lg text-on-surface py-1 hover:text-primary"
-          >
-            Contact Us
-          </Link>
-          <Link
-            href="#contact"
-            onClick={closeMobileMenu}
-            className="mt-2 bg-primary text-on-primary font-label-lg text-label-lg px-4 py-2.5 rounded-DEFAULT font-bold uppercase inline-flex items-center justify-center gap-2"
+            href="/#contact"
+            onClick={closeMenus}
+            className="mt-3 bg-primary text-on-primary font-label-lg text-label-lg px-4 py-2.5 rounded-DEFAULT font-bold uppercase inline-flex items-center justify-center gap-2"
           >
             <span>Request a Quote</span>
             <Icon name="arrow_forward" className="text-[18px]" />

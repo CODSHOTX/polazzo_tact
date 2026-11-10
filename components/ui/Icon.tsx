@@ -15,7 +15,7 @@ export const Icon: React.FC<IconProps> = ({ name, className = '', size }) => {
 
   return (
     <span
-      className={`material-symbols-outlined select-none ${className}`}
+      className={`icon-symbol select-none ${className}`}
       style={style}
       aria-hidden="true"
     >

@@ -1,27 +1,10 @@
-'use client';
-
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { PROJECTS_DATA } from '@/data/projects';
-import { ProjectCategory } from '@/types';
+import React from 'react';
+import Link from 'next/link';
+import { HOME_PROJECTS_LIMIT } from '@/data/projects';
+import { ProjectsGrid } from '@/components/sections/ProjectsGrid';
 import { Icon } from '@/components/ui/Icon';
 
-const FILTER_TABS: { label: string; value: ProjectCategory }[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Commercial', value: 'commercial' },
-  { label: 'Industrial', value: 'industrial' },
-  { label: 'Civil Works', value: 'civil' },
-  { label: 'Residential', value: 'residential' },
-];
-
 export const ProjectsSection: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
-
-  const filteredProjects =
-    activeCategory === 'all'
-      ? PROJECTS_DATA
-      : PROJECTS_DATA.filter((project) => project.category === activeCategory);
-
   return (
     <section
       className="py-20 bg-surface-container-lowest border-b border-surface-container-highest"
@@ -46,61 +29,16 @@ export const ProjectsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Filter Controls */}
-        <div className="flex flex-wrap items-center gap-2 border-b border-outline-variant pb-4 mb-8">
-          {FILTER_TABS.map((tab) => {
-            const isActive = activeCategory === tab.value;
-            return (
-              <button
-                key={tab.value}
-                onClick={() => setActiveCategory(tab.value)}
-                className={`px-4 py-2 text-label-md font-label-md uppercase tracking-wider rounded-DEFAULT transition-all ${
-                  isActive
-                    ? 'font-bold bg-primary text-on-primary shadow-sm'
-                    : 'font-semibold bg-surface-container hover:bg-surface-container-high text-on-surface'
-                }`}
-              >
-                {tab.label}
-              </button>
-            );
-          })}
-        </div>
+        <ProjectsGrid limit={HOME_PROJECTS_LIMIT} />
 
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="bg-surface-container-lowest border border-outline-variant rounded-DEFAULT overflow-hidden group hover:border-primary transition-all shadow-sm"
-            >
-              <div className="relative h-60 overflow-hidden bg-surface-container">
-                <Image
-                  src={project.imageSrc}
-                  alt={project.imageAlt}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <span className="absolute top-3 left-3 bg-inverse-surface/90 text-on-primary text-label-sm font-label-sm uppercase px-2.5 py-1 font-bold z-10">
-                  {project.categoryLabel}
-                </span>
-              </div>
-
-              <div className="p-5">
-                <div className="flex items-center gap-1.5 text-primary text-label-sm font-label-sm font-bold mb-1">
-                  <Icon name="location_on" className="text-[16px]" />
-                  <span>{project.location}</span>
-                </div>
-                <h3 className="font-headline-sm text-headline-sm text-on-surface font-bold text-lg mb-2">
-                  {project.title}
-                </h3>
-                <p className="font-body-sm text-body-sm text-tertiary mb-4">{project.description}</p>
-                <div className="pt-3 border-t border-surface-container-highest flex justify-between items-center text-label-sm font-label-sm text-on-surface-variant font-semibold">
-                  <span>{project.scope}</span>
-                  <span className="text-primary font-bold">{project.status}</span>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="mt-10 flex justify-center">
+          <Link
+            href="/projects"
+            className="bg-inverse-surface hover:bg-primary text-inverse-on-surface font-label-lg text-label-lg px-7 py-3.5 rounded-DEFAULT font-bold tracking-wider uppercase transition-all active:scale-[0.98] inline-flex items-center gap-2"
+          >
+            <span>See More Projects</span>
+            <Icon name="arrow_forward" className="text-[18px]" />
+          </Link>
         </div>
       </div>
     </section>
