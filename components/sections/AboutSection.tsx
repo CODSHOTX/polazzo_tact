@@ -71,7 +71,7 @@ export const AboutSection: React.FC = () => {
             <div className="space-y-4">
               <div className="relative h-56 bg-surface-container overflow-hidden rounded-DEFAULT border border-outline-variant shadow-sm">
                 <Image
-                  src="/images/drafting-desk.jpg"
+                  src="/images/constructionPics.jpeg"
                   alt="Close up architectural drafting desk with blueprints, laser distance meter, construction safety helmet, and scale ruler in a bright Nigerian engineering design studio."
                   fill
                   className="object-cover"
@@ -101,7 +101,7 @@ export const AboutSection: React.FC = () => {
               </div>
               <div className="relative h-56 bg-surface-container overflow-hidden rounded-DEFAULT border border-outline-variant shadow-sm">
                 <Image
-                  src="/images/steel-erection.jpg"
+                  src="/images/Residential2.jpeg"
                   alt="Heavy steel beam erection on an industrial plant site with Nigerian ironworkers securing structural joints using pneumatic tools against a crisp clear sky in Lagos industrial area."
                   fill
                   className="object-cover"

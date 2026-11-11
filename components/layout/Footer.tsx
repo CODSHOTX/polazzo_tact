@@ -81,17 +81,24 @@ export const Footer: React.FC = () => {
           <div className="space-y-4 text-surface-container-highest font-body-sm text-body-sm">
             <div>
               <div className="text-secondary-fixed font-bold font-label-md text-label-md uppercase mb-0.5">
-                Lagos Operations
+                Lagos
               </div>
-              <p>Plot 14, Commercial Boulevard, Victoria Island / Lekki, Lagos State.</p>
-              <p className="text-tertiary-fixed-dim text-xs mt-0.5">Direct: +234 800 POLAZZO</p>
+              <p>Plot 15, Ereke House, CIPM, Building CDB, Alausa, Ikeja Lagos State, Nigeria</p>
+              <p className="text-tertiary-fixed-dim text-xs mt-0.5">Direct: +234 803 970 2524</p>
             </div>
             <div>
               <div className="text-secondary-fixed font-bold font-label-md text-label-md uppercase mb-0.5">
-                Abuja Regional Hub
+                Abuja
               </div>
-              <p>Executive Towers, Central Business District (CBD), Abuja FCT.</p>
-              <p className="text-tertiary-fixed-dim text-xs mt-0.5">Direct: info@polazzotact.com</p>
+              <p>52, Gbazango Extension, Kubwa, Abuja FCT, Nigeria.</p>
+              <p className="text-tertiary-fixed-dim text-xs mt-0.5">Direct: info@polazzotact.com.ng</p>
+            </div>
+            <div>
+              <div className="text-secondary-fixed font-bold font-label-md text-label-md uppercase mb-0.5">
+                Oyo
+              </div>
+              <p>4th Floor, Derila Building, Iwo Road, Ibadan, Oyo State, Nigeria.</p>
+              <p className="text-tertiary-fixed-dim text-xs mt-0.5">Direct: info@polazzotact.com.ng</p>
             </div>
           </div>
         </div>

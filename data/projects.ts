@@ -45,10 +45,10 @@ export const PROJECTS_DATA: ProjectItem[] = [
   },
   {
     id: 'abuja-executive-complex',
-    title: 'Abuja Executive Corporate Complex',
+    title: 'Culvert and Retaining Wall',
     category: 'civil',
     categoryLabel: 'Civil Works',
-    location: 'Central Area, Abuja FCT',
+    location: '',
     description:
       'CULVERT AND RETAINING WALL UNDER CONSTRUCTION',
     scope: 'Scope: Prime Contractor',

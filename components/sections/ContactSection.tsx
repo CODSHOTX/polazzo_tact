@@ -1,10 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { startTransition, useActionState, useState } from 'react';
 import { REGIONAL_HUBS, EMERGENCY_HOTLINE } from '@/data/company';
+import { SERVICE_OPTIONS, InquiryField, InquiryState } from '@/data/contact';
+import { sendInquiry } from '@/app/actions/contact';
 import { Icon } from '@/components/ui/Icon';
 
-interface FormData {
+const INITIAL_STATE: InquiryState = { status: 'idle' };
+
+const inputClass = (hasError: boolean) =>
+  `w-full px-3 bg-surface-container-lowest border rounded-DEFAULT text-on-surface font-body-md focus:outline-none transition-colors ${
+    hasError ? 'border-error focus:border-error' : 'border-outline focus:border-primary'
+  }`;
+
+const FieldError = ({ message }: { message?: string }) =>
+  message ? <p className="mt-1 font-body-sm text-body-sm text-error">{message}</p> : null;
+
+interface InquiryFormValues {
   name: string;
   email: string;
   phone: string;
@@ -15,7 +27,7 @@ interface FormData {
 }
 
 export const ContactSection: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<InquiryFormValues>({
     name: '',
     email: '',
     phone: '',
@@ -25,11 +37,17 @@ export const ContactSection: React.FC = () => {
     nda: false,
   });
 
-  const [submitted, setSubmitted] = useState(false);
+  const [state, submitInquiry, pending] = useActionState(sendInquiry, INITIAL_STATE);
+  const [dismissedState, setDismissedState] = useState<InquiryState | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const submitted = state.status === 'success' && state !== dismissedState;
+  const fieldError = (field: InquiryField) =>
+    state !== dismissedState ? state.fieldErrors?.[field] : undefined;
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
+    const payload = new FormData(e.currentTarget);
+    startTransition(() => submitInquiry(payload));
   };
 
   const handleReset = () => {
@@ -42,7 +60,7 @@ export const ContactSection: React.FC = () => {
       details: '',
       nda: false,
     });
-    setSubmitted(false);
+    setDismissedState(state);
   };
 
   return (
@@ -130,9 +148,10 @@ export const ContactSection: React.FC = () => {
                     </h4>
                   </div>
                   <p className="font-body-md text-body-md text-tertiary">
-                    Thank you, <strong>{formData.name}</strong>. Your technical brief has been routed to the
-                    appropriate engineering desk at Polazzo Tact Nig. Ltd. A senior project manager will contact
-                    you at <strong>{formData.email}</strong> within 24 business hours.
+                    Thank you, <strong>{state.submittedName ?? formData.name}</strong>. Your technical brief has
+                    been routed to the appropriate engineering desk at Polazzo Tact Nig. Ltd. A senior project
+                    manager will contact you at <strong>{state.submittedEmail ?? formData.email}</strong> within 24
+                    business hours.
                   </p>
                   <button
                     type="button"
@@ -144,99 +163,160 @@ export const ContactSection: React.FC = () => {
                 </div>
               ) : (
                 <form className="space-y-4" onSubmit={handleSubmit}>
+                  {state.status === 'error' && state !== dismissedState && state.message && (
+                    <div
+                      role="alert"
+                      className="flex items-start gap-2 p-3 bg-error-container text-on-error-container border-l-4 border-error rounded-DEFAULT font-body-sm text-body-sm"
+                    >
+                      <Icon name="error" className="text-[18px] shrink-0" />
+                      <span>{state.message}</span>
+                    </div>
+                  )}
+
+                  {/* Honeypot: hidden from people, left empty by real users */}
+                  <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                    <label htmlFor="inquiry-website">Website</label>
+                    <input id="inquiry-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+                  </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1">
+                      <label
+                        htmlFor="inquiry-name"
+                        className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1"
+                      >
                         Your Name / Representative
                       </label>
                       <input
-                        className="w-full h-11 px-3 bg-surface-container-lowest border border-outline rounded-DEFAULT text-on-surface font-body-md focus:border-primary focus:outline-none transition-colors"
+                        id="inquiry-name"
+                        name="name"
+                        className={`h-11 ${inputClass(!!fieldError('name'))}`}
                         placeholder="e.g. Engr. Babatunde Adeyemi"
                         required
+                        maxLength={100}
+                        autoComplete="name"
                         type="text"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       />
+                      <FieldError message={fieldError('name')} />
                     </div>
                     <div>
-                      <label className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1">
+                      <label
+                        htmlFor="inquiry-email"
+                        className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1"
+                      >
                         Corporate Email
                       </label>
                       <input
-                        className="w-full h-11 px-3 bg-surface-container-lowest border border-outline rounded-DEFAULT text-on-surface font-body-md focus:border-primary focus:outline-none transition-colors"
+                        id="inquiry-email"
+                        name="email"
+                        className={`h-11 ${inputClass(!!fieldError('email'))}`}
                         placeholder="babatunde@organization.ng"
                         required
+                        maxLength={200}
+                        autoComplete="email"
                         type="email"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       />
+                      <FieldError message={fieldError('email')} />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1">
+                      <label
+                        htmlFor="inquiry-phone"
+                        className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1"
+                      >
                         Direct Phone Number
                       </label>
                       <input
-                        className="w-full h-11 px-3 bg-surface-container-lowest border border-outline rounded-DEFAULT text-on-surface font-body-md focus:border-primary focus:outline-none transition-colors"
+                        id="inquiry-phone"
+                        name="phone"
+                        className={`h-11 ${inputClass(!!fieldError('phone'))}`}
                         placeholder="+234 803 000 0000"
                         required
+                        maxLength={30}
+                        autoComplete="tel"
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       />
+                      <FieldError message={fieldError('phone')} />
                     </div>
                     <div>
-                      <label className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1">
+                      <label
+                        htmlFor="inquiry-service"
+                        className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1"
+                      >
                         Required Service Category
                       </label>
                       <select
-                        className="w-full h-11 px-3 bg-surface-container-lowest border border-outline rounded-DEFAULT text-on-surface font-body-md focus:border-primary focus:outline-none transition-colors"
+                        id="inquiry-service"
+                        name="service"
+                        className={`h-11 ${inputClass(!!fieldError('service'))}`}
                         value={formData.service}
                         onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                       >
-                        <option value="building">Building Construction (Commercial / Residential)</option>
-                        <option value="industrial">Industrial Engineering Construction</option>
-                        <option value="mep">Electrical &amp; Mechanical Installation (MEP)</option>
-                        <option value="fm">General Facilities Management</option>
-                        <option value="real_estate">Real Estate Development</option>
-                        <option value="procurement">Heavy Equipment &amp; Material Procurement</option>
+                        {SERVICE_OPTIONS.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
                       </select>
+                      <FieldError message={fieldError('service')} />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1">
+                    <label
+                      htmlFor="inquiry-location"
+                      className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1"
+                    >
                       Project Location in Nigeria
                     </label>
                     <input
-                      className="w-full h-11 px-3 bg-surface-container-lowest border border-outline rounded-DEFAULT text-on-surface font-body-md focus:border-primary focus:outline-none transition-colors"
+                      id="inquiry-location"
+                      name="location"
+                      className={`h-11 ${inputClass(!!fieldError('location'))}`}
                       placeholder="e.g. Lekki Free Zone, Lagos / CBD Abuja / Port Harcourt"
+                      maxLength={200}
                       type="text"
                       value={formData.location}
                       onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     />
+                    <FieldError message={fieldError('location')} />
                   </div>
 
                   <div>
-                    <label className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1">
+                    <label
+                      htmlFor="inquiry-details"
+                      className="block font-label-md text-label-md uppercase tracking-wider text-on-surface font-semibold mb-1"
+                    >
                       Project Details / Scope of Works
                     </label>
                     <textarea
-                      className="w-full p-3 bg-surface-container-lowest border border-outline rounded-DEFAULT text-on-surface font-body-md focus:border-primary focus:outline-none transition-colors"
+                      id="inquiry-details"
+                      name="details"
+                      className={`py-3 ${inputClass(!!fieldError('details'))}`}
                       placeholder="Outline estimated square meterage, timeline expectations, architectural phase, or specific technical requirements..."
                       required
+                      minLength={10}
+                      maxLength={5000}
                       rows={4}
                       value={formData.details}
                       onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                     />
+                    <FieldError message={fieldError('details')} />
                   </div>
 
                   <div className="flex items-center gap-2 pt-2">
                     <input
                       className="h-4 w-4 rounded-DEFAULT text-primary border-outline focus:ring-0 cursor-pointer"
                       id="ndaCheck"
+                      name="nda"
                       type="checkbox"
                       checked={formData.nda}
                       onChange={(e) => setFormData({ ...formData, nda: e.target.checked })}
@@ -248,11 +328,15 @@ export const ContactSection: React.FC = () => {
 
                   <div className="pt-4">
                     <button
-                      className="w-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg px-8 py-4 rounded-DEFAULT font-bold tracking-wider uppercase transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg px-8 py-4 rounded-DEFAULT font-bold tracking-wider uppercase transition-all shadow-md active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 disabled:cursor-wait"
                       type="submit"
+                      disabled={pending}
                     >
-                      <span>Submit RFP / Inquiry</span>
-                      <Icon name="send" className="text-[20px]" />
+                      <span>{pending ? 'Sending Inquiry…' : 'Submit RFP / Inquiry'}</span>
+                      <Icon
+                        name={pending ? 'progress_activity' : 'send'}
+                        className={`text-[20px] ${pending ? 'animate-spin' : ''}`}
+                      />
                     </button>
                   </div>
                 </form>
