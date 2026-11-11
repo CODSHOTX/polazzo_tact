@@ -2,10 +2,10 @@ import { NavLink } from '@/types';
 import { ABOUT_PAGES } from '@/data/about';
 
 export const TOP_UTILITY_INFO = {
-  phone: '+234 800 POLAZZO',
-  phoneHref: 'tel:+234800POLAZZO',
-  email: 'info@polazzotact.com',
-  emailHref: 'mailto:info@polazzotact.com',
+  phone: '+234 803 970 2524',
+  phoneHref: 'tel:+2348039702524',
+  email: 'info@polazzotact.com.ng',
+  emailHref: 'mailto:info@polazzotact.com.ng',
   rcNumber: 'RC: 1087410',
   locations: 'Lagos / Abuja, Nigeria',
   tagline: 'Redefining Construction',
