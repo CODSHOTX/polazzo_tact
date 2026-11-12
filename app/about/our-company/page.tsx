@@ -17,9 +17,10 @@ import {
 } from '@/data/about';
 
 export const metadata: Metadata = {
-  title: 'Our Company | Polazzo Tact Nig. Ltd.',
+  title: 'Our Company',
   description:
     'Who we are, our vision, mission, values and strategy, why clients choose Polazzo Tact Nigeria Limited, and our reliable partners.',
+  alternates: { canonical: '/about/our-company' },
 };
 
 const SectionHeading = ({ eyebrow, icon, title }: { eyebrow: string; icon: string; title: string }) => (

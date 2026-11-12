@@ -6,8 +6,9 @@ import { REGISTRATION_DETAILS, SPECIALIZATIONS } from '@/data/about';
 import { REGIONAL_HUBS } from '@/data/company';
 
 export const metadata: Metadata = {
-  title: 'Our Corporate Profile | Polazzo Tact Nig. Ltd.',
+  title: 'Our Corporate Profile',
   description: 'Statutory registration details of Polazzo Tact Nigeria Limited, including CAC RC number and TIN.',
+  alternates: { canonical: '/about/corporate-profile' },
 };
 
 export default function CorporateProfilePage() {

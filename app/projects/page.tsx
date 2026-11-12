@@ -6,9 +6,10 @@ import { Icon } from '@/components/ui/Icon';
 import { SELECTED_PROJECTS, SELECTED_PROJECTS_INTRO } from '@/data/projects';
 
 export const metadata: Metadata = {
-  title: 'Our Projects | Polazzo Tact Nig. Ltd.',
+  title: 'Our Projects',
   description:
     'Featured and selected construction, civil works, residential and commercial projects delivered by Polazzo Tact Nigeria Limited across Nigeria.',
+  alternates: { canonical: '/projects' },
 };
 
 export default function ProjectsPage() {

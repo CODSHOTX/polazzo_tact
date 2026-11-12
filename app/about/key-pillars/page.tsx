@@ -5,8 +5,9 @@ import { KEY_STAFF, TEAM_INTRO } from '@/data/about';
 import { StaffMember } from '@/types';
 
 export const metadata: Metadata = {
-  title: 'Our Key Pillars | Polazzo Tact Nig. Ltd.',
+  title: 'Our Key Pillars',
   description: 'Meet the key staff members behind Polazzo Tact Nigeria Limited.',
+  alternates: { canonical: '/about/key-pillars' },
 };
 
 const LEADERSHIP_COUNT = 2;
